@@ -1,18 +1,18 @@
-from .constants import schedule, times, all_lessons
+from .constants import schedule, times, all_lessons, days
 
 async def add_lesson(day, time, lesson):
     if lesson == 'Командно-лидерские турниры':
-        schedule[day][times[0]] = lesson
+        schedule[days[day]][times[0]] = lesson
         for i in range(1,13):
-            del schedule[day][times[i]]
+            del schedule[days[day]][times[i]]
     elif lesson in ['Практические занятие/стажировка', 'Теоретическое занятие', 'Занятие с инженерами-наставниками']:
         current_index = times.index(time)
         for i in range(current_index, current_index + 4):
-            schedule[day][times[i]] = lesson
+            schedule[days[day]][times[i]] = lesson
     else:
         current_index = times.index(time)
         for i in range(current_index, current_index + 6):
-            schedule[day][times[i]] = lesson
+            schedule[days[day]][times[i]] = lesson
 
 def check_lesson_count(shedule, lesson_name):
     count = 0

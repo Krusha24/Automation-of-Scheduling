@@ -1,4 +1,4 @@
-from .constants import times, all_lessons 
+from .constants import times, all_lessons, days
 
 def check_time_for_lesson(shedule, lesson_name, time_start, day):
     time = int(time_start.split(':')[0])
@@ -14,7 +14,7 @@ def check_time_for_lesson(shedule, lesson_name, time_start, day):
             current_index = times.index(time_start)
             for item in all_lessons:
                 for i in range(current_index, current_index+4):
-                    if item == shedule[day][times[i]]:
+                    if item == shedule[days[day]][times[i]]:
                         flag = False
                         error = 'Выбранный предмет пересекается с другим предметом, попробуйте поставить в другое время или день.'
                         break 
@@ -30,7 +30,7 @@ def check_time_for_lesson(shedule, lesson_name, time_start, day):
         if time < 16:
             for item in all_lessons:
                 for i in range(current_index, current_index+count):
-                    if item == shedule[day][times[i]]:
+                    if item == shedule[days[day]][times[i]]:
                         flag = False
                         error = 'Выбранный предмет пересекается с другим предметом, попробуйте поставить в другое время или день.'
                         break
@@ -44,7 +44,7 @@ def check_time_for_lesson(shedule, lesson_name, time_start, day):
     elif lesson_name == 'Командно-лидерские турниры':
         for item in all_lessons:
             for i in range(0, 11):
-                if item == shedule[day][times[i]]:
+                if item == shedule[days[day]][times[i]]:
                     flag = False
                     error = 'Выбранный предмет пересекается с другим предметом, попробуйте поставить в другое время или день.'
                     break
