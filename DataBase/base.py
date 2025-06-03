@@ -12,5 +12,6 @@ class Base(AsyncAttrs, DeclarativeBase):
 
 async def async_main():
     from DataBase.models.users import User
+    from DataBase.models.suggested_schedule import Suggested_Schedule
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)

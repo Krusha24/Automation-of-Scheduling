@@ -4,3 +4,4 @@ class Student_Wish(StatesGroup):
     current_day_index = State()
     lesson = State()
     time = State()
+    suggested_schedule = State()
