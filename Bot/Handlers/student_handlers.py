@@ -42,6 +42,7 @@ async def day_selection(call: CallbackQuery, state: FSMContext, day_index):
         f'{choose_day}{day_schedule(data['suggested_schedule'], days[day_index])}',
         reply_markup=kb.days
     )
+    
 @student_router.callback_query(RoleFilter('student'), Student_Wish.day)
 async def day_navigation(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
@@ -63,11 +64,11 @@ async def day_navigation(call: CallbackQuery, state: FSMContext):
     elif call.data == 'send':
         send = await send_schedule_for_review(call.from_user.id, data["suggested_schedule"])
         await state.clear()
-        if send[0]:
+        if send:
             await call.message.edit_text(schedule_send_for_review, reply_markup=kb.student)
             return
-        elif not send[0]:
-            await call.message.edit_text(send[1], reply_markup=kb.student)
+        elif not send:
+            await call.message.edit_text("Вы уже отправили расписание.", reply_markup=kb.student)
             return
         
     elif call.data == 'back':
@@ -97,11 +98,11 @@ async def wish_student_step_third(call: CallbackQuery, state: FSMContext):
     
 @student_router.callback_query(RoleFilter('student'), Student_Wish.time)
 async def wish_student_step_third(call: CallbackQuery, state: FSMContext):
+    data = await state.get_data()
     if call.data == 'back':
             await state.set_state(Student_Wish.lesson)
-            await call.message.edit_text(f'{choose_day}{day_schedule(data["suggested_schedule"], days[0])}', reply_markup=kb.lessons)
+            await call.message.edit_text(f'{choose_lesson}\n{day_schedule(data["suggested_schedule"], days[0])}', reply_markup=kb.lessons)
             return
-    data = await state.get_data()
     check_time= check_time_for_lesson(data["suggested_schedule"], data['lesson'], call.data, data['day'])
     if check_time[0] == True:
         await state.update_data(time = call.data)
@@ -109,11 +110,11 @@ async def wish_student_step_third(call: CallbackQuery, state: FSMContext):
         if lesson_count(data["suggested_schedule"]) == 50:
             await state.clear()
             send = await send_schedule_for_review(call.from_user.id, data["suggested_schedule"])
-            if send[0]:
+            if send:
                 await call.message.edit_text(schedule_send_for_review, reply_markup=kb.student)
                 return
-            elif not send[0]:
-                await call.message.edit_text(send[1], reply_markup=kb.student)
+            elif not send:
+                await call.message.edit_text("Вы уже отправили расписание.", reply_markup=kb.student)
                 return
         else:
             await state.set_state(Student_Wish.day)

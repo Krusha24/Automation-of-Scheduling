@@ -7,7 +7,7 @@ from DataBase.base import Base
 class RoleEnum(enum.Enum):
     student = "student"
     teacher = "teacher"
-    decan = "dean"
+    dean = "dean"
 
 class User(Base):
     __tablename__ = 'users'

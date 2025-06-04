@@ -28,6 +28,6 @@ async def set_user_role(callback: CallbackQuery, state: FSMContext):
     elif role == 'teacher':
         pass
     elif role == 'dean':
-        pass
+        keyboard = kb_dean.dean_menu
     await callback.message.answer(f"Ваша роль — {role.capitalize()} успешно выбрана!", reply_markup=keyboard)
 
